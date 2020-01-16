@@ -3,9 +3,17 @@
 
 ## Getting Started
 Clone this repo and run these commands
-```
+```sh
 docker-compose up -d database
 psql -h database -U postgres -f init.sql
+
+docker-compose exec todo bash
+poetry run python
+```
+
+```py
+from server.app import db
+db.create_all()
 ```
 
 ## Back End
