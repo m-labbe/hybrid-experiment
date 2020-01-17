@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title>Title</title>
     <script src="/static/entry.js"></script>
-    <link rel="stylesheet" href="/static/entry.css" />
+    <link href="{{ url_for('static', path='/entry.css') }}" rel="stylesheet" />
   </head>
+
   <body>
-    <div id="main"></div>
-    <script>
-      todoApp('main')
-    </script>
+    <h1>{{ text }}</h1>
   </body>
 </html>
