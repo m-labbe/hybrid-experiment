@@ -1,10 +1,20 @@
 from fastapi import FastAPI, HTTPException
+from starlette.middleware.cors import CORSMiddleware
+
 from database import session
 from todo_item import TodoItem
 from pydantic import BaseModel
 from typing import List, Optional
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 class ItemModel(BaseModel):

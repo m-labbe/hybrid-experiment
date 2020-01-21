@@ -4,7 +4,7 @@ const express = require('express')
 const port = 3000
 const app = express()
 
-app.use(express.static('public'))
+app.use(express.static('static'))
 app.set('views', path.join(__dirname, './views'))
 app.set('view engine', 'pug')
 

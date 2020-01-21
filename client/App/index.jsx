@@ -6,7 +6,7 @@ import NewItemForm from '../NewItemForm'
 const App = function() {
   function getTodoItems() {
     axios
-      .get('/todo/')
+      .get('http://localhost:80/todo/')
       .then((response) => {
         setTodoItems(response.data.data)
       })
@@ -19,7 +19,7 @@ const App = function() {
       completed: false,
     }
     axios
-      .post('/todo/', formData)
+      .post('http://localhost:80/todo/', formData)
       .then((response) => {
         if (response.status == 200) {
           getTodoItems()
@@ -31,7 +31,7 @@ const App = function() {
   function handleCheck(e) {
     const id = e.target.dataset.id
     axios
-      .put(`/todo/${id}/`, { completed: e.target.checked })
+      .put(`http://localhost:80/todo/${id}/`, { completed: e.target.checked })
       .then((response) => {
         if (response.status == 200) {
           getTodoItems()
@@ -43,7 +43,7 @@ const App = function() {
   function handleDelete(e) {
     const id = e.target.dataset.id
     axios
-      .delete(`/todo/${id}/`)
+      .delete(`http://localhost:80/todo/${id}/`)
       .then((response) => {
         if (response.status == 200) {
           getTodoItems()
