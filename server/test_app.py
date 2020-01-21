@@ -20,7 +20,7 @@ def test_get_all():
     session.add(item3)
     session.flush()
     response = client.get("/todo/")
-    actual = json.loads(response.data)
+    actual = response.json()
     expected = {
         "status": "success",
         "data": [
