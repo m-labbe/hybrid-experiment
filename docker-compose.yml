@@ -21,9 +21,17 @@ services:
   test:
     build:
       context: .
-      dockerfile: Dockerfile_test
+      dockerfile: test.dockerfile
     volumes:
       - ./server:/opt/todo
+  web:
+    build:
+      context: .
+      dockerfile: web.dockerfile
+    ports:
+      - 3000:3000
+    volumes:
+      - ./web:/opt/todo
 
 volumes:
   db_volume:
