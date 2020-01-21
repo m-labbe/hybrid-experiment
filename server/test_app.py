@@ -1,7 +1,7 @@
 import json
 import logging
 
-from app import TodoItem, db
+from app import TodoItem
 
 logging.basicConfig()
 logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)

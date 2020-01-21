@@ -1,9 +1,8 @@
 FROM python:3.7
 WORKDIR /opt/todo
 EXPOSE 80
-COPY ./server .
 RUN pip install poetry
-COPY pyproject.toml ./
-COPY poetry.lock ./
+COPY server/pyproject.toml ./
+COPY server/poetry.lock ./
 RUN poetry install
-CMD ["poetry", "run", "uvicorn", "server.app:app", "--reload", "--host", "0.0.0.0", "--port", "80"]
+CMD ["poetry", "run", "uvicorn", "app:app", "--reload", "--host", "0.0.0.0", "--port", "80"]

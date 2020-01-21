@@ -1,9 +1,8 @@
-FROM python:3.7-slim-buster
+FROM python:3.7
 WORKDIR /opt/todo
-RUN apt-get update
-RUN apt-get install -y build-essential
-RUN python -m pip install poetry
-COPY pyproject.toml ./
-COPY poetry.lock ./
-RUN  poetry install
+EXPOSE 80
+RUN pip install poetry
+COPY server/pyproject.toml ./
+COPY server/poetry.lock ./
+RUN poetry install
 CMD ["poetry", "run", "pytest"]

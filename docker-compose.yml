@@ -17,13 +17,13 @@ services:
     ports:
       - 80:80
     volumes:
-      - .:/opt/todo
+      - ./server:/opt/todo
   test:
     build:
       context: .
       dockerfile: Dockerfile_test
     volumes:
-      - .:/opt/todo
+      - ./server:/opt/todo
 
 volumes:
   db_volume:
