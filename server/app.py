@@ -1,16 +1,16 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from database import session
 from todo_item import TodoItem
 from pydantic import BaseModel
-from typing import List
+from typing import List, Optional
 
 app = FastAPI()
 
 
 class ItemModel(BaseModel):
-    id: int
-    text: str
-    completed: bool
+    id: Optional[int]
+    text: Optional[str]
+    completed: Optional[bool]
 
     class Config:
         orm_mode = True
@@ -30,19 +30,38 @@ def read_root():
 def read_item():
     items = session.query(TodoItem).order_by(TodoItem.id).all()
     return {"data": items}
-    # return {"status": "success", "data": []}
 
 
-@app.post("/todo/{todo_id}")
-def read_item(todo_id: int):
-    return {"todo_id": todo_id}
+@app.post("/todo/")
+def create_item(item: ItemModel):
+    todo_item = TodoItem(**item.dict())
+    session.add(todo_item)
+    session.flush()
+    session.commit()
+    return {"status": "success"}
 
 
-@app.put("/todo/{todo_id}")
-def read_item(todo_id: int):
-    return {"todo_id": todo_id}
+@app.put("/todo/{todo_id}/")
+def update_item(todo_id: int, item: ItemModel):
+    todo_item = session.query(TodoItem).filter(TodoItem.id == todo_id).first()
+    if not todo_item:
+        raise HTTPException(status_code=404, detail="Item not found")
+    if item.text:
+        todo_item.text = item.text
+    if item.completed is not None:
+        todo_item.completed = item.completed
+    session.add(todo_item)
+    session.flush()
+    session.commit()
+    return {"status": "success"}
 
 
-@app.delete("/todo/{todo_id}")
-def read_item(todo_id: int):
-    return {"todo_id": todo_id}
+@app.delete("/todo/{todo_id}/")
+def delete_item(todo_id: int):
+    todo_item = session.query(TodoItem).filter(TodoItem.id == todo_id).first()
+    if not todo_item:
+        raise HTTPException(status_code=404, detail="Item not found")
+    session.delete(todo_item)
+    session.flush()
+    session.commit()
+    return {"status": "success"}
