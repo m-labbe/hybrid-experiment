@@ -1,20 +1,24 @@
 import json
 import logging
-
-from app import TodoItem
+from starlette.testclient import TestClient
+from app import app
+from todo_item import TodoItem
+from database import session
 
 logging.basicConfig()
 logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
 
+client = TestClient(app)
 
-def test_get_all(client):
+
+def test_get_all():
     item1 = TodoItem(completed=False, text="Test item text")
-    db.session.add(item1)
+    session.add(item1)
     item2 = TodoItem(completed=False, text="Test item two text")
-    db.session.add(item2)
+    session.add(item2)
     item3 = TodoItem(completed=True, text="Test item three text")
-    db.session.add(item3)
-    db.session.flush()
+    session.add(item3)
+    session.flush()
     response = client.get("/todo/")
     actual = json.loads(response.data)
     expected = {
@@ -28,35 +32,35 @@ def test_get_all(client):
     assert actual == expected
 
 
-def test_add_item(client):
+def test_add_item():
     client.post("/todo/", json={"completed": False, "text": "Add new item"})
-    actual = TodoItem.query.filter(TodoItem.text == "Add new item").one()
+    actual = session.query(TodoItem).filter(TodoItem.text == "Add new item").one()
     assert actual.text == "Add new item"
     assert actual.completed == False
 
 
-def test_delete_item(client):
+def test_delete_item():
     delete_me = TodoItem(id=1, completed=False, text="Delete this item")
-    db.session.add(delete_me)
-    db.session.flush()
+    session.add(delete_me)
+    session.flush()
     client.delete("/todo/1/")
-    actual = TodoItem.query.filter_by(id=1).first()
+    actual = session.query(TodoItem).filter_by(id=1).first()
     assert actual is None
 
 
-def test_update_item_completed(client):
+def test_update_item_completed():
     item = TodoItem(id=1, completed=False, text="Test item three text")
-    db.session.add(item)
-    db.session.flush()
+    session.add(item)
+    session.flush()
     client.put("/todo/1/", json={"completed": True})
-    actual = TodoItem.query.filter_by(id=1).one()
+    actual = session.query(TodoItem).filter_by(id=1).one()
     assert actual.completed
 
 
-def test_update_item_text(client):
+def test_update_item_text():
     item = TodoItem(id=1, completed=False, text="Test item three text")
-    db.session.add(item)
-    db.session.flush()
+    session.add(item)
+    session.flush()
     client.put("/todo/1/", json={"text": "My new text"})
-    actual = TodoItem.query.filter_by(id=1).one()
+    actual = session.query(TodoItem).filter_by(id=1).one()
     assert actual.text == "My new text"

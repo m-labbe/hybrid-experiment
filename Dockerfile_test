@@ -5,4 +5,4 @@ RUN pip install poetry
 COPY server/pyproject.toml ./
 COPY server/poetry.lock ./
 RUN poetry install
-CMD ["poetry", "run", "pytest"]
+CMD ["poetry", "run", "python", "-m", "pytest"]
