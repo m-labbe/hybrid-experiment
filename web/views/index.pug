@@ -4,6 +4,6 @@ html
     link(rel='stylesheet', href='entry.css')
   body
     p #{message}
-    div(id='main')
-    script
-        != 'todoApp(\'main\')'
+    div #{renderedComponent}
+    //- script
+    //-     != 'todoApp(\'main\')'

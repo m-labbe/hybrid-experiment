@@ -5,14 +5,22 @@
   "license": "MIT",
   "dependencies": {
     "express": "4.17.1",
-    "pug": "2.0.4"
+    "pug": "2.0.4",
+    "react": "16.12.0",
+    "react-dom": "16.12.0",
+    "axios": "0.19.1",
+    "classnames": "2.2.6"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
+    "@babel/cli": "7.8.3",
+    "@babel/core": "7.8.3",
+    "@babel/node": "7.8.3",
+    "@babel/preset-env": "7.8.3",
+    "@babel/preset-react": "7.8.3",
     "nodemon": "2.0.2"
   },
   "scripts": {
-    "serve": "nodemon --inspect --exec babel-node app.js"
+    "build": "babel . --out-dir dist --presets=@babel/react,@babel/env --ignore '**/node_modules','client/entry.js' --copy-files",
+    "serve": "nodemon --inspect --exec node dist/app.js"
   }
 }

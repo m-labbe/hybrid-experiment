@@ -5,5 +5,5 @@ import App from './App'
 
 window.todoApp = (elementId) => {
   const container = document.getElementById(elementId)
-  ReactDOM.render(<App />, container)
+  ReactDOM.hydrate(<App />, container)
 }
