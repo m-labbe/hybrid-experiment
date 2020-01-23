@@ -1,8 +1,7 @@
 import pytest
 
-from app import app
 from database import session, engine
-from todo_item import TodoItem
+from models.todo_item import TodoItem
 
 
 @pytest.fixture(autouse=True)

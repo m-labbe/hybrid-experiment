@@ -1,9 +1,9 @@
-import json
 import logging
 from starlette.testclient import TestClient
-from app import app
-from todo_item import TodoItem
+
+from .app import app
 from database import session
+from models.todo_item import TodoItem
 
 logging.basicConfig()
 logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
