@@ -1,5 +1,5 @@
-const path = require('path')
-const express = require('express')
+import path from 'path'
+import express from 'express'
 
 const port = 3000
 const app = express()
